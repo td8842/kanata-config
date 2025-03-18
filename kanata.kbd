@@ -1,7 +1,3 @@
-;; Basic home row mods example using QWERTY
-;; For a more complex but perhaps usable configuration,
-;; see home-row-mod-advanced.kbd
-
 (defcfg
   process-unmapped-keys yes
   windows-altgr add-lctl-release
@@ -27,13 +23,13 @@
   left-hand-keys (
     q w e r t
     ;; a s d f g
-    a g
+    a d f g
     z x c v b
   )
   right-hand-keys (
     y u i o p
     ;; h j k l ;
-    h ;
+    h j k ;
     n m , . /
   )
 )
@@ -43,30 +39,24 @@
 )
 
 (defalias
-  ;; Layer toggle/hold
-  ext1 (layer-while-held extend1)
-  csym (layer-while-held capssymbols)
-  gmng (layer-switch nomods)
-  tbse (layer-switch base)
-  npad (layer-switch numpad)
-
-  ;; Advanced home row mods
+  ;; Advanced home row mods tap definition
   tap (multi
     (layer-switch nomods)
     (on-idle-fakekey to-base tap 20)
   )
 
-  a (tap-hold-release-keys $tap-time $hold-time (multi a @tap) lmet $left-hand-keys)
-  s (tap-hold-release-keys $tap-time $hold-time (multi s @tap) lalt $left-hand-keys)
-  d (tap-hold-release-keys $tap-time $hold-time (multi d @tap) lsft $left-hand-keys)
-  f (tap-hold-release-keys $tap-time $hold-time (multi f @tap) lctl $left-hand-keys)
-  j (tap-hold-release-keys $tap-time $hold-time (multi j @tap) rctl $right-hand-keys)
-  k (tap-hold-release-keys $tap-time $hold-time (multi k @tap) rsft $right-hand-keys)
-  l (tap-hold-release-keys $tap-time $hold-time (multi l @tap) ralt $right-hand-keys)
-  ; (tap-hold-release-keys $tap-time $hold-time (multi ; @tap) rmet $right-hand-keys)
+  ;; Layer toggle/hold
+  ext1 (layer-while-held extend1)
+  lsymbol (layer-while-held leftsymbols)
+  rsymbol (layer-while-held rightsymbols)
+  gmng (layer-switch nomods)
+  tbse (layer-switch base)
+  npad (layer-switch numpad)
 
+  ;; layer tap-hold
   spext (tap-hold 150 150 spc @ext1)
-
+  lsym (tap-hold-release-keys $tap-time $hold-time (multi l @tap) @lsymbol $right-hand-keys)
+  rsym (tap-hold-release-keys $tap-time $hold-time (multi s @tap) @rsymbol $left-hand-keys)
 
   ;; Mouse Wheel
   wup (mwheel-up 10 30)
@@ -80,8 +70,16 @@
   vert (macro (unicode |) 1 (unicode |) 1 left)
 
   ;; Single symbols
+  ^ (unicode ^)
+  > (unicode >)
+  < (unicode <)
+  ! (unicode !)
   + (unicode +)
   * (unicode *)
+  _ (unicode _)
+  % (unicode %)
+  # (unicode #)
+  @ (unicode @)
   lbr (unicode "(")
   rbr (unicode ")")
 
@@ -93,7 +91,7 @@
   esc
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
   tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-  @ext1  a      s      d      f      g      h      j      k      l      ;      '      ret
+  @ext1  a      @rsym  d      f      g      h      j      k      @lsym  ;      '      ret
   lsft   z      x      c      v      b      n      m      ,      .      /      rsft
   lctl   lmet   lalt             @spext            ralt   rmet   rctl
 )
@@ -111,26 +109,35 @@
   caps
   grv    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    bspc
   tab    q      @wup   ret    r      t      pgup   home   up     end    del    [      ]      \
-  @ext1  lalt   @wdn   lsft   lctl   g      pgdn   left   down   right  bspc   esc    prtsc
-  lsft   C-b    C-z    C-x    C-v    mlft   @sqbr  @prts  @dlr   @vert  @crbr  rsft
+  @ext1  lalt   @wdn   lsft   lctl   mlft   pgdn   left   down   right  bspc   esc    prtsc
+  lsft   C-b    C-z    C-x    C-v    b      @sqbr  @prts  @dlr   @vert  @crbr  rsft
   lctl   @gmng  @tbse            ret               @npad  rmet   lrld
-)
-
-(deflayer capssymbols
-  esc
-  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
-  tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-  @ext1  a      s      d      f      g      h      j      k      l      ;      '      ret
-  lsft   z      x      c      v      b      n      m      ,      .      /      rsft
-  lctl   @gmng  @tbse            ret               ralt   rmet   rctl
 )
 
 (deflayer numpad ;; Extend 2
   esc
   grv    1      2      3      4      5      6      7      8      9      @*     -      =      bspc
   tab    home   up     end    r      t      pgup   4      5      6      @+     @lbr   @rbr   \
-  @ext1  left   down   right  bspc   g      pgdn   1      2      3      ret    '      ret
-  lsft   z      x      c      v      mlft   n      0      0      .      /      rsft
+  @ext1  left   down   right  bspc   mlft   pgdn   1      2      3      ret    '      ret
+  lsft   z      x      c      v      b      n      0      0      .      /      rsft
   lctl   lmet   lalt             @tbse             @tbse  rmet   rctl
+)
+
+(deflayer leftsymbols
+  esc
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    @^     @<     @>     @%     @@      y      u      i      o      p      [      ]      \
+  @ext1  @!     -      @+     =      @#     h      j      k      l      ;      '      ret
+  lsft   /      @*     \      @_     b      n      m      ,      .      /      rsft
+  lctl   @gmng  @tbse            ret               ralt   rmet   rctl
+)
+
+(deflayer rightsymbols
+  esc
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+  @ext1  a      s      d      f      g      h      j      k      l      ;      '      ret
+  lsft   z      x      c      v      b      n      m      ,      .      /      rsft
+  lctl   @gmng  @tbse            ret               ralt   rmet   rctl
 )
 
