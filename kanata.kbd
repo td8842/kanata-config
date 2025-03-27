@@ -18,18 +18,17 @@
   ;; fingers faster.
   tap-time 150
   hold-time 180
+  one-shot-time 750
 
   ;; For home row mods
   left-hand-keys (
     q w e r t
-    ;; a s d f g
-    a d f g
+    a s d f g
     z x c v b
   )
   right-hand-keys (
     y u i o p
-    ;; h j k l ;
-    h j k ;
+    h j k l ;
     n m , . /
   )
 )
@@ -58,6 +57,17 @@
   lsym (tap-hold-release-keys $tap-time $hold-time (multi l @tap) @lsymbol $right-hand-keys)
   rsym (tap-hold-release-keys $tap-time $hold-time (multi s @tap) @rsymbol $left-hand-keys)
 
+  ;; one-shots
+  osft (one-shot $one-shot-time lsft)
+  octl (one-shot $one-shot-time lctl)
+
+  ;; caps word
+  cw (caps-word-custom 
+    1000
+    (q w e r t y u i o a s d f g h j k l ; z x c v b n m -)
+    (lsft)
+  )
+
   ;; Mouse Wheel
   wup (mwheel-up 10 30)
   wdn (mwheel-down 10 30)
@@ -80,6 +90,11 @@
   % (unicode %)
   # (unicode #)
   @ (unicode @)
+  & (unicode &)
+  | (unicode |)
+  $ (unicode $)
+  { (unicode {)
+  } (unicode })
   lbr (unicode "(")
   rbr (unicode ")")
 
@@ -108,9 +123,9 @@
 (deflayer extend1
   caps
   grv    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    bspc
-  tab    q      @wup   ret    r      t      pgup   home   up     end    del    [      ]      \
-  @ext1  lalt   @wdn   lsft   lctl   mlft   pgdn   left   down   right  bspc   esc    prtsc
-  lsft   C-b    C-z    C-x    C-v    b      @sqbr  @prts  @dlr   @vert  @crbr  rsft
+  @atab  @cw    @wup   ret    r      t      pgup   home   up     end    del    [      ]      \
+  @ext1  lalt   @wdn   @osft  @octl  mlft   pgdn   left   down   right  bspc   esc    prtsc
+  lsft   C-b    C-z    C-x    C-v    mlft   @sqbr  @prts  @dlr   @vert  @crbr  rsft
   lctl   @gmng  @tbse            ret               @npad  rmet   lrld
 )
 
@@ -119,14 +134,14 @@
   grv    1      2      3      4      5      6      7      8      9      @*     -      =      bspc
   tab    home   up     end    r      t      pgup   4      5      6      @+     @lbr   @rbr   \
   @ext1  left   down   right  bspc   mlft   pgdn   1      2      3      ret    '      ret
-  lsft   z      x      c      v      b      n      0      0      .      /      rsft
+  lsft   z      x      c      v      mlft   n      0      0      .      /      rsft
   lctl   lmet   lalt             @tbse             @tbse  rmet   rctl
 )
 
 (deflayer leftsymbols
   esc
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
-  tab    @^     @<     @>     @%     @@      y      u      i      o      p      [      ]      \
+  tab    @^     @<     @>     @%     t      y      u      i      o      p      [      ]      \
   @ext1  @!     -      @+     =      @#     h      j      k      l      ;      '      ret
   lsft   /      @*     \      @_     b      n      m      ,      .      /      rsft
   lctl   @gmng  @tbse            ret               ralt   rmet   rctl
@@ -135,9 +150,9 @@
 (deflayer rightsymbols
   esc
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
-  tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-  @ext1  a      s      d      f      g      h      j      k      l      ;      '      ret
-  lsft   z      x      c      v      b      n      m      ,      .      /      rsft
+  tab    q      w      e      r      t      y      @$     @{     @}     p      [      ]      \
+  @ext1  a      s      d      f      g      h      @@     @lbr   @rbr   @&     '      ret
+  lsft   z      x      c      v      b      n      @|     [      ]      /      rsft
   lctl   @gmng  @tbse            ret               ralt   rmet   rctl
 )
 
