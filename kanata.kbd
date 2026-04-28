@@ -24,18 +24,18 @@
   mouse-freq 8
   mouse-accel-time 200
   mouse-min-speed 3
-  mouse-max-speed 15
+  mouse-max-speed 20
 
   ;; For home row mods
   left-hand-keys (
     q w e r t
-    a s g
-    z x c v b
+    a g
+    z x v b
   )
   right-hand-keys (
     y u i o p
-    h l ;
-    n m , . /
+    h ;
+    n , . /
   )
 )
 
@@ -55,6 +55,7 @@
   lsymbol (layer-while-held leftsymbols)
   rsymbol (layer-while-held rightsymbols)
   npad (layer-while-held numpad)
+  lnav (layer-while-held leftnav)
   nmod (layer-switch nomods)
   tbse (layer-switch base)
   mse (layer-while-held mouse)
@@ -68,6 +69,7 @@
   ;; layer tap-hold
   spext (tap-hold 150 150 spc @ext1)
   c (tap-hold 150 150 c @npad)
+  m (tap-hold 150 150 m @lnav)
   lsym (tap-hold-release-keys $tap-time $hold-time (multi l @tap) @lsymbol $right-hand-keys)
   rsym (tap-hold-release-keys $tap-time $hold-time (multi s @tap) @rsymbol $left-hand-keys)
 
@@ -109,7 +111,7 @@
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
   tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
   @ext1  a      @rsym  @d     @f     g      h      @j     @k     @lsym  ;      '      ret
-  lsft   z      x      @c     v      b      n      m      ,      .      /      rsft
+  lsft   z      x      @c     v      b      n      @m     ,      .      /      rsft
   lctl   lmet   lalt             @spext            ralt   rmet   rctl
 )
 
@@ -134,10 +136,12 @@
 (deflayer extend1
   caps
   C-grv  f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    bspc
-  @atab  @cw    @wup   ret    r      t      pgup   home   up     end    del    [      ]      \
+  @atab  @cw    @wup   ret    mlft   t      pgup   home   up     end    del    [      ]      \
   @ext1  lalt   @wdn   lsft   lctl   mlft   pgdn   left   down   right  bspc   esc    prtsc
-  lsft   C-b    C-z    C-x    C-v    b      n      esc    @dlr   @vert  @crbr  rsft
+  ;; lsft   C-b    C-z    C-x    C-v    b      n      esc    @dlr   @vert  @crbr  rsft
         ;; bzxv for colemak-dh, use zxcv for qwerty
+  lsft   C-v    C-b    C-r    C-t    b      n      esc    @dlr   @vert  @crbr  rsft
+        ;; vbrt for gallium, use zxcv for qwerty
   lctl   @nmod  @tbse            spc               ralt   rmet   lrld
 )
 
@@ -148,6 +152,15 @@
   @ext1  a      s      d      f      g      h      1      2      3      .      '      ret
   lsft   z      x      c      v      b      .      4      5      6      .      rsft
   lctl   lmet   lalt              0                .      rmet   rctl
+)
+
+(deflayer leftnav
+  esc
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    q      M-pgup M-pgdn r      t      y      u      i      o      p      [      ]      \
+  @ext1  a      s      d      @atab  g      h      j      k      l      ;      '      ret
+  lsft   z      x      c      v      b      n      m      ,      .      /      rsft
+  lctl   lmet   lalt             spc               ralt   rmet   rctl
 )
 
 (deflayer leftsymbols
