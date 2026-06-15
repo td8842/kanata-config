@@ -16,9 +16,15 @@
   ;; Layer toggle/hold
   ext1 (layer-while-held extend1)
 
+  ;; layer tap-hold
+  spext (tap-hold 150 150 spc @ext1)
+
   ;; Mouse Wheel
   wup (mwheel-up 10 30)
   wdn (mwheel-down 10 30)
+
+  ;; macros
+  atab (multi lalt tab)
 )
 
 (deflayer base
@@ -32,9 +38,9 @@
 
 (deflayer extend1
   caps
-  grv   f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12   bspc
-  tab   q     @wup  e     r     t     pgup  home  up    end   del   [     ]     \
+  C-grv f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12   bspc
+  @atab q     @wup  ret   r     t     pgup  home  up    end   del   [     ]     \
   @ext1 lalt  @wdn  lsft  lctl  mlft  pgdn  left  down  right bspc  '     prtsc
   lsft  C-z   C-x   C-c   C-v   b     n     esc   ,     .     /     rsft
-  lctl  lmet  lalt              ret               ralt  rmet  rctl
+  lctl  lmet  lalt              ret               ralt  rmet  lrld
 )
